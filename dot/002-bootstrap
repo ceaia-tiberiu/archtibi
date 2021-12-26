@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+
+
+echo 'before running, insure git is installed, and arch boot-strapping script is in home directory'
+
+echo ''
+
+ssh-keygen -t ed25519
+
+echo ' '
+echo 'Add this public key to your github account before continueing'
+echo ' '
+
+cat ~ /.ssh/id_ed25519.pub
+
+echo ' '
+
+ready y
+
+
+sudo pacman -S base-devel
+
+cd ~
+
+mkdir Repo
+cd Repo
+
+# Pull down dot files from github
+
+git clone git@github.com:ceaia-tiberiu/dotFiles.git dot
+
+sudo curl -sfL git.io/antibody | sudo sh -s - -b /usr/local/bin
+
+ln -s ~/Repo/dot/.bin ~/
+ln -s ~/Repo/dot/.config ~/
+ln -s ~/Repo/dot/.git ~/
+ln -s ~/Repo/dot/.gitconfig ~/
+ln -s ~/Repo/dot/.zshrc ~/
+ln -s ~/Repo/dot/.zshrc-personal ~/
+ln -s ~/Repo/dot/.bashrc ~/
+ln -s ~/Repo/dot/.bashrc-personal ~/
+ln -s ~/Repo/dot/.vim ~/
+ln -s ~/Repo/dot/.vimrc ~/
+ln -s ~/Repo/dot/.tmux.conf ~/
+ln -s ~/Repo/dot/.conkyrc ~/
+ln -s ~/Repo/dot/.zsh_plugins.txt ~/
+
+cd ~
+mkdir -p .tmux/plugins
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm 
+
+
+
+cd ~/.config
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -si
+cd ~
+
+#install applications
+pacPackages=()
+
+yayPackages=()
+
+sudo pacman -s ${pacPackages[@]} --noconfirm
+yay -s ${yayPackages[@]} --noconfirm

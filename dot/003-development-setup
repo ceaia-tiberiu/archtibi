@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+yayPackages="bat fzf ripgrep universal-ctags-git fd  notion-app-enchanged qtkeychain gnome-keyring the_silver_searcher transmission-gtk go go-tools protobuf docker docker-compose postgresql redis robo3t-bin mongodb-bin mongodb-tools-bin spotify redis ranger jre-openjdk dbeaver vim tmux yarn neovim-git python-pip"
+
+yay -S ${yayPackages} --needed --noconfirm
+
+echo 'Enable services'
+  sudo systemctl enable redis.service
+  sudo systemctl start redis.services
+  sudo systemctl enable mongodb.service
+  sudo systemctl start mongodb.service
+  sudo chown -R postgres:postgres /var/lib/postgres/
+  sudo su - postgres -c "initdb --locale en_US.UTF-8 -D '/var/lib/postgres/data'"
+  sudo systemctl enable postgresql.service
+  sudo systemctl start postgresql.service
+
+echo 'Setup environments'
+ 
+echo 'Installing NVM 0.38.0, NODEJS, NPM and other NPM global Libraries'
+
+if ! [ -d "$HOME/.nvm" ]
+then
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+
+    export NVM_DIR=$HOME/.nvm;
+
+    source $NVM_DIR/nvm.sh;
+
+    nvm install --lts
+
+    npm i -g npm @nestjs/cli npm-check-updates http-server netlify-cli tinypng-cli nodemon create-react-app create-react-library
+
+fi
+
+
+if ! [ -d "$HOME/sites" ]
+then
+    cd $HOME
+    git clone git@github.com:ceaia-tiberiu/sites-repository.git sites
+fi

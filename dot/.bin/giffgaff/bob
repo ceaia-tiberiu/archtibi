@@ -1,0 +1,64 @@
+#!/bin/bash
+
+dir=$PWD
+imports="/Users/tiberiu/.bin/giffgaff/imports/"
+reAppDir="/Users/tiberiu/dev/giffgaff/giffgaff-re-app/"
+graphqlDir="/Users/tiberiu/dev/giffgaff/graphql-server/"
+reactComponentsDir="/Users/tiberiu/dev/giffgaff/react-web-components/"
+ggDockerDir="/Users/tiberiu/work/gg-docker/"
+smartStubDir="/Users/tiberiu/work/gg/smart-stub-data-loader/"
+remoteConfigDir="/Users/tiberiu/work/gg/remote-configurations/"
+msPortalDir="/Users/tiberiu/work/gg/msportal/"
+uiPackagesDir="/Users/tiberiu/work/gg/ui-packages/"
+designSystemDir="/Users/tiberiu/work/gg/design-system/"
+
+#Cleaning Helper
+function clean() {
+    echo "Params $1"
+    case $1 in
+        docker-full)
+            ${imports}clean/clear-docker-full
+        ;;
+    esac
+}
+
+function stop() {
+    echo "Stop $1"
+    case $1 in
+        docker)
+            docker-compose down
+        ;;
+    esac
+}
+
+function start() {
+    echo "Start $1"
+
+    case $1 in
+        fe)
+            ${imports}start/start-fe ${ggDockerDir} 4433
+        ;;
+    esac
+}
+
+
+case $1 in
+    start)
+        echo "start the program"
+        cd ${ggDockerDir}
+        # docker-compose up -d --build gg-fe
+        start $2
+    ;;
+    stop)
+        echo "stop the program"
+        stop $2
+    ;;
+    enter)
+        echo "enter the program"
+    ;;
+    clean)
+       echo "clean $2"
+       clean $2
+    ;;
+esac
+

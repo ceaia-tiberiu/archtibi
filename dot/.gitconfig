@@ -1,0 +1,35 @@
+[user]
+	name = Tiberiu Ceaia
+	email = tiberiu.ceaia@gmail.com
+
+[alias]
+	undo	= "!f() { git rcmd; git exc \"git reset --hard HEAD\";}; f"
+	mm		= "!f() { git rcmd; git exc \"git merge origin/master\";}; f"
+	df		= "!f() { git rcmd; git exc \"git diff --name-only HEAD origin/master\";}; f"
+	fb		= "!f() { git rcmd; git pcmd \"git branch -r | grep -i $1\"; git branch -r | grep -i $1;}; f"
+	flb		= "!f() { git rcmd; git pcmd \"git branch | grep -i $1\"; git branch | grep -i $1;}; f"
+	fbu		= "!f() { git rcmd; dbr=$(git branch -r | grep  $1 | sed 's/^  origin\\///'); lines=$(git branch -r | grep  $1 | wc -l); if [ $lines = 1 ]\n then\n git ck $dbr; else\n git perr \"$lines branches found\" 1; fi }; f"
+	plo		= "!f() { git rcmd; git porp pull;}; f"
+	pso		= "!f() { git rcmd; git porp push;}; f"
+	nb		= "!f() { git rcmd; git exc \"git fetch origin\"; git exc \"git checkout -b $1 origin/master\"; git exc \"git push -u  origin $1\";}; f"
+	initb	= "!f() { git rcmd; git exc \"git fetch origin\"; git exc \"git checkout -b $1 origin/$1\"; }; f"
+	ck		= "!f() { git rcmd; git exc \"git checkout $1\";}; f"
+	ckm		= "!f() { git rcmd; git exc \"git checkout origin/master $1\";}; f"
+	cob		= "!f() { git rcmd; cbranch=$(git gcb); other_refs=$(git for-each-ref --format='%(refname)' refs/heads/ | grep -v \"refs/heads/$cbranch\"); git pcmd \"Getting commits on current branch ...\";git log $cbranch --not $other_refs;}; f"
+	upd     = "!f() { git rcmd; git exc \"git fetch origin\"; git porp pull; git exc \"git merge origin/master\";}; f"
+	cleanup   = "!git branch --merged | grep  -v '\\*\\|master\\|develop' | xargs -n 1 git branch -d"
+
+
+
+	porp = "!porp() { cbranch=$(git gcb);\nif [ \"$cbranch\" = '' ]\n then\n git perrl ''; git perrl \"(no branch)\"; git perrl ''; exit 1; fi; git exc \"git $1 origin $cbranch\";}; porp"
+	rcmd = "!rcmd() { git config mydata.cmdOk 'OK';}; rcmd"
+	pgcb = "!pgcb() { git branch | grep "^*\t" | sed 's/^* //';}; pgcb"
+	gcb = "!gcb() { cbranch=$(git pgcb);\nif [ \"$cbranch\" = '(no branch)' ]\n then\n exit 1; fi; echo $cbranch;}; gcb"
+	exc = "!exc() { cmdOk=$(git config --get mydata.cmdOk);\nif [ $cmdOk = 'KO' ]\n then\n exit 1; fi;\n git pcmd \"$1\"; $1; cmd_res=$?;\nif [ $cmd_res != 0 ]\n then\n git perr \"$1\" $cmd_res; git config mydata.cmdOk 'KO'; fi\n}; exc"
+	pcmd = "!pcmd() { echo -en '\\E[0;31m'\"\\033[1m\n$1\n\\033[0m\"; }; pcmd"
+	perr = "!perr() { git perrl ''; git perrl \"ERROR ON: $1\"; git perrl \"EXIT CODE: $2\"; git perrl ''; }; perr"
+	perrl = "!perrl() { echo -e '\\E[41;1m'\"\\033[1m\"; printf \" %-60s\" \"$1\"; echo -en '\\E[41;1m'\"\\033[1m\\033[0m\";}; perrl"
+	last = log -1 HEAD
+
+[init]
+	defaultBranch = master

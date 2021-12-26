@@ -1,0 +1,84 @@
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=off
+alias c="clear"
+alias cnm='find . -name "node_modules" -type d -prune -exec rm -rf '{}' +' # clears node_modules in folder/subfolders
+alias envconf="vim ~/.zshrc-personal"
+alias sites="cd ~/sites"
+alias pac="sudo pacman -S"
+alias pacup="sudo pacman -Syu"
+alias vimconf="vim ~/.vimrc"
+alias refresh='source ~/.zshrc; clear;'
+alias p='lpass show -c -q --password -G';
+alias cat='bat --paging=never'
+alias v="vim"
+alias pnx="pnpm run nx --"
+alias myip='ifconfig | grep 0xffffff00'
+#Disable autocorrect
+unsetopt correct_all
+unsetopt correct
+DISABLE_CORRECTION="true"
+# -= Tmux Settings =-
+alias tas="tmux attach-session -t"
+alias tat='tmux new-session -As $(basename "$PWD" | tr . -)' # will attach if session exists, or create a new session
+alias ts="tmux new -s"
+alias tl="tmux ls"
+alias tr="tmux source-file ~/.tmux.conf"
+alias tconf="vim ~/.tmux.conf"
+alias tm="tmuxifier"
+export PATH="$HOME/.tmuxifier/bin:$PATH"
+export TMUXIFIER_LAYOUT_PATH="$HOME/Repo/dot/.tmux-layouts"
+eval "$(tmuxifier init -)"
+
+# -= Tmux end settings
+
+
+# FileSearch
+function f() { find . -iname "*$1*" ${@:2}; }
+function r() { grep "$1" ${@:2} -R .; }
+
+#mkdir and cd
+function mkcd() { mkdir -p "$@" && cd "$_"; }
+
+function dlog() { docker logs -f "$@"; }
+
+# removes node modules
+function rmnm(){
+  find . -name 'node_modules' -type d -prune -exec rm -rf '{}' +
+}
+
+alias dcu="docker-compose up -d"
+alias dcd="docker-compose down"
+
+# -= Mongo Settings =-
+mongoup() {
+	cd ~/sites/mongodb/;
+  dcu;
+}
+mongodn() {
+	cd ~/sites/mongodb;
+  dcd;
+}
+alias mbash="docker -it mongoDB bash"
+alias mlog="docker logs mongoDB"
+# -= End Mongo settings =-
+
+alias dot="cd ~/Repo/dot"
+case "$OSTYPE" in
+  darwin*)
+    # ...
+  ;;
+  linux*)
+    # ...
+    export PATH="$HOME/lsites/flutter/bin:$PATH"
+    source /usr/share/fzf/completion.zsh
+    source /usr/share/fzf/key-bindings.zsh
+  ;;
+  dragonfly*|freebsd*|netbsd*|openbsd*)
+    # ...
+  ;;
+esac
+
+# source /usr/share/nvm/init-nvm.sh
+export NVM_DIR="$HOME/.nvm"
+
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

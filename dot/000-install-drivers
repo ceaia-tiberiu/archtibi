@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+sudo pacman -Sy broadcom-wl-dkms blueman 
+
+sudo rmmod b43
+sudo rmmod ssd
+sudo modprobe wl
+
+
+echo "Now reboot your pc"
+
+

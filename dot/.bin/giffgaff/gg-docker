@@ -1,0 +1,15 @@
+#!/bin/bash
+cd ~/work/gg-docker
+
+if ! tmux has-session -t gg-docker; then 
+    tmux new -s gg-docker -d
+    tmux new-window -t gg-docker:2
+    tmux split-window -t gg-docker:2
+    tmux send-keys -t gg-docker:1 vim Enter
+    tmux send-keys -t gg-docker:2.1 \
+        npm run start -- --build fe Enter
+    tmux send-keys -t gg-docker:2.2 \
+        docker-compose up -d Enter
+fi
+tmux attach -t gg-docker
+ 

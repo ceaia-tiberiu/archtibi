@@ -1,0 +1,15 @@
+#Tibi-s personal stuff
+
+alias c="clear"
+alias envconf="vim ~/.bashrc-personal"
+alias sites="cd ~/sites"
+alias pac="sudo pacman -S"
+alias pacup="sudo pacman -Syu"
+alias vimconf="vim ~/.vimrc"
+alias refresh="source ~/.bashrc; clear"
+alias tas="tmux attach-session -t"
+alias ts="tmux new -s"
+alias tl="tmux ls"
+alias tr="tmux source-file ~/.tmux.conf"
+alias vimconf="vim ~/.vimrc"
+alias yay="yay -S --no-confirm"
