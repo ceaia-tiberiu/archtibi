@@ -1,7 +1,0 @@
-eval $(dircolors -b ~/.dir_colors)
-typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
-source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
-alias dks='sudo systemctl start docker.service'
-export GOPATH=$HOME/golib
-export GOPATH=$GOPATH:$HOME/gocode
-export PATH="$PATH:$HOME/golib/bin"
